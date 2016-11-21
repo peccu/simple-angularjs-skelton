@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.1/angular.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-responsive.min.css">
+    <style type="text/css">
+     @import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700);
+     *{
+       font-family:roboto;
+     }
+    </style>
+
+    <title>AngularJS skelton</title>
+    <script type='text/javascript'>//<![CDATA[
+     'use strict';
+
+     var App = angular.module('AngularJSSkelton', []);
+
+     App.controller("RootCtrl", ['$scope','SomeService', function ($scope, Some) {
+        $scope.title = 'AngularJS Skelton';
+       $scope.load=function(e){
+         Some.load().then(function(res){
+           $scope.results=res.data.responseData.results;
+         });
+       }
+     }]);
+
+     App.factory('SomeService',['$http',function($http){
+       return {
+         load : function(){
+           var url = 'http://somefeedurl';
+           return $http.jsonp('//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=50&callback=JSON_CALLBACK&q=' + encodeURIComponent(url));
+         }
+       }
+     }]);
+     //]]>
+    </script>
+  </head>
+
+  <body ng-app="AngularJSSkelton">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
+    <div class="container-fluid">
+      <div data-ng-controller="RootCtrl">
+        <div class="row-fluid">
+          <h4>{{title}}</h4>
+        </div>
+      </div>
+    </div>
+  </body>
